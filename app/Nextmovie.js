@@ -7,7 +7,7 @@ var movielist = new mongoose.Schema({
     type: String
   },
 
-  done: {
+  watched: {
     type: Boolean
   }
 },

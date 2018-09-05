@@ -1,14 +1,28 @@
 {
-    "name": "node-todo",
-    "version": "0.0.0",
-    "description": "A simple todo application.",
-    "main": "server.js",
-    "author": "Samuel James",
-    "dependencies": {
-        "body-parser": "^1.5.2",
-        "express": "~4.7.2",
-        "method-override": "~2.1.2",
-        "mongoose": "~3.6.2",
-        "morgan": "^1.9.0"
-    }
+  "name": "todo",
+  "version": "0.0.0",
+  "description": "A Movie Watch List Web App",
+  "main": "server.js",
+  "author": "M. Wang",
+  "dependencies": {
+    "body-parser": "1.5.2",
+    "express": "4.7.2",
+    "method-override": "2.1.2",
+    "mongoose": "3.6.2",
+    "morgan": "1.9.0",
+    "nodemon": "1.18.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sourcemasters/NextMovie.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sourcemasters/NextMovie/issues"
+  },
+  "homepage": "https://github.com/sourcemasters/NextMovie#readme"
 }
