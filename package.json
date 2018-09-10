@@ -1,11 +1,11 @@
 {
   "name": "NextMovie",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "A Movie Watch List Web App",
   "main": "server.js",
   "author": "M. Wang",
   "scripts": {
-    "start": "node server.js"
+    "build" : "webpack"
   },
   "dependencies": {
     "body-parser": "1.5.2",
