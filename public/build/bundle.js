@@ -12480,6 +12480,24 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]();
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14082,7 +14100,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.delete__icon[data-v-78a3b192] {\n}\n.movies__watched[data-v-78a3b192] {\n    text-decoration: line-through !important\n}\n.no_border_left_right[data-v-78a3b192] {\n    border-left: 0px;\n    border-right: 0px;\n}\n.flat_form[data-v-78a3b192] {\n    border-radius: 0px;\n}\n.mrb-10[data-v-78a3b192] {\n    margin-bottom: 10px;\n}\n.addon-left[data-v-78a3b192] {\n    background-color: none !important;\n    border-left: 0px !important;\n    cursor: pointer !important;\n}\n.addon-right[data-v-78a3b192] {\n    background-color: none !important;\n    border-right: 0px !important;\n}\n", ""]);
+exports.push([module.i, "\n.delete__icon[data-v-78a3b192] {\n    background-color: #ee22aa;\n}\n.movies__watched[data-v-78a3b192] {\n    text-decoration: line-through !important\n}\n.no_border_left_right[data-v-78a3b192] {\n    border-left: 0px;\n    border-right: 0px;\n}\n.flat_form[data-v-78a3b192] {\n    border-radius: 0px;\n}\n.mrb-10[data-v-78a3b192] {\n    margin-bottom: 10px;\n}\n.addon-left[data-v-78a3b192] {\n    background-color: none !important;\n    border-left: 0px !important;\n    cursor: pointer !important;\n}\n.addon-right[data-v-78a3b192] {\n    background-color: none !important;\n    border-right: 0px !important;\n}\n", ""]);
 
 // exports
 
@@ -14104,8 +14122,12 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.movies.length > 0,
-            expression: "movies.length>0"
+            value:
+              _vm.movies.filter(function(film) {
+                return !film.watched
+              }).length > 0,
+            expression:
+              "movies.filter((film) => {return !film.watched;}).length>0"
           }
         ],
         staticClass: "col-md-12"
@@ -14113,126 +14135,131 @@ var render = function() {
       [
         _c("h3", [_vm._v("Movies to Watch")]),
         _vm._v(" "),
-        _vm._l(_vm.movies, function(movie) {
-          return _c("div", { staticClass: "row mrb-10" }, [
-            _c("div", { staticClass: "input-group m-b-5" }, [
-              _c("span", { staticClass: "input-group-addon addon-right" }, [
+        _vm._l(
+          _vm.movies.filter(function(film) {
+            return !film.watched
+          }),
+          function(movie) {
+            return _c("div", { staticClass: "row mrb-10" }, [
+              _c("div", { staticClass: "input-group m-b-5" }, [
+                _c("span", { staticClass: "input-group-prepend" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: movie.watched,
+                        expression: "movie.watched"
+                      }
+                    ],
+                    attrs: { type: "checkbox", title: "Mark as watched?" },
+                    domProps: {
+                      checked: movie.watched,
+                      value: movie.watched,
+                      checked: Array.isArray(movie.watched)
+                        ? _vm._i(movie.watched, movie.watched) > -1
+                        : movie.watched
+                    },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$a = movie.watched,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = movie.watched,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(movie, "watched", $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  movie,
+                                  "watched",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(movie, "watched", $$c)
+                          }
+                        },
+                        function($event) {
+                          _vm.updateMovie(movie)
+                        }
+                      ]
+                    }
+                  })
+                ]),
+                _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: movie.watched,
-                      expression: "movie.watched"
+                      value: movie.name,
+                      expression: "movie.name"
                     }
                   ],
-                  attrs: { type: "checkbox", title: "Mark as watched?" },
-                  domProps: {
-                    checked: movie.watched,
-                    value: movie.watched,
-                    checked: Array.isArray(movie.watched)
-                      ? _vm._i(movie.watched, movie.watched) > -1
-                      : movie.watched
-                  },
+                  staticClass: "form-control",
+                  class: movie.watched ? "movies__watched" : "",
+                  attrs: { type: "text" },
+                  domProps: { value: movie.name },
                   on: {
-                    change: [
-                      function($event) {
-                        var $$a = movie.watched,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = movie.watched,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(movie, "watched", $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                movie,
-                                "watched",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(movie, "watched", $$c)
-                        }
-                      },
-                      function($event) {
-                        _vm.updateMovie(movie)
+                    keypress: function($event) {
+                      movie.editing = true
+                    },
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
                       }
-                    ]
+                      _vm.updateMovie(movie)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(movie, "name", $event.target.value)
+                    }
                   }
-                })
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
+                }),
+                _vm._v(" "),
+                _c(
+                  "span",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: movie.name,
-                    expression: "movie.name"
-                  }
-                ],
-                staticClass: "form-control",
-                class: movie.watched ? "movies__watched" : "",
-                attrs: { type: "text" },
-                domProps: { value: movie.name },
-                on: {
-                  keypress: function($event) {
-                    movie.editing = true
-                  },
-                  keyup: function($event) {
-                    if (
-                      !("button" in $event) &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                    ) {
-                      return null
+                    staticClass: "input-group-append",
+                    attrs: { title: "Delete movie?" },
+                    on: {
+                      click: function($event) {
+                        _vm.deleteMovie(movie._id)
+                      }
                     }
-                    _vm.updateMovie(movie)
                   },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(movie, "name", $event.target.value)
-                  }
-                }
-              }),
+                  [_vm._v("X")]
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "span",
                 {
-                  staticClass: "input-group-addon addon-left",
-                  attrs: { title: "Delete movie?" },
-                  on: {
-                    click: function($event) {
-                      _vm.deleteMovie(movie._id)
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: movie.editing,
+                      expression: "movie.editing"
                     }
-                  }
+                  ],
+                  staticClass: "help-block small"
                 },
-                [_vm._v("X")]
+                [_vm._v("Hit enter to update")]
               )
-            ]),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: movie.editing,
-                    expression: "movie.editing"
-                  }
-                ],
-                staticClass: "help-block small"
-              },
-              [_vm._v("Hit enter to update")]
-            )
-          ])
-        })
+            ])
+          }
+        )
       ],
       2
     ),
@@ -14244,13 +14271,122 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.movies.length == 0,
-            expression: "movies.length==0"
+            value:
+              _vm.movies.filter(function(film) {
+                return !film.watched
+              }).length == 0,
+            expression:
+              "movies.filter((film) => {return !film.watched;}).length==0"
           }
         ],
         staticClass: "row alert alert-info text-center"
       },
       [_vm._m(0)]
+    ),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value:
+              _vm.movies.filter(function(film) {
+                return film.watched
+              }).length > 0,
+            expression:
+              "movies.filter((film) => {return film.watched;}).length>0"
+          }
+        ],
+        staticClass: "col-md-12"
+      },
+      [
+        _c("h3", [_vm._v("Watched Movies")]),
+        _vm._v(" "),
+        _vm._l(
+          _vm.movies.filter(function(film) {
+            return film.watched
+          }),
+          function(movie) {
+            return _c("div", { staticClass: "row mrb-10" }, [
+              _c("div", { staticClass: "input-group m-b-5" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: movie.name,
+                      expression: "movie.name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  class: movie.watched ? "movies__watched" : "",
+                  attrs: { type: "text" },
+                  domProps: { value: movie.name },
+                  on: {
+                    keypress: function($event) {
+                      movie.editing = true
+                    },
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      _vm.updateMovie(movie)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(movie, "name", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-append",
+                    attrs: { title: "Delete movie?" },
+                    on: {
+                      click: function($event) {
+                        _vm.deleteMovie(movie._id)
+                      }
+                    }
+                  },
+                  [_vm._v("X")]
+                )
+              ])
+            ])
+          }
+        )
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value:
+              _vm.movies.filter(function(film) {
+                return film.watched
+              }).length == 0,
+            expression:
+              "movies.filter((film) => {return film.watched;}).length==0"
+          }
+        ],
+        staticClass: "row alert alert-secondary text-center"
+      },
+      [_vm._m(1)]
     )
   ])
 }
@@ -14260,10 +14396,24 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", { staticClass: "alert alert-info" }, [
-      _c("strong", [_vm._v("All Caught Up")]),
+      _c("strong", [_vm._v("No Movies Yet")]),
       _vm._v(" "),
       _c("br"),
-      _vm._v("\n        You do not have any planned movies")
+      _vm._v("\n        You do not have any planned movies. Try adding some!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "alert alert-secondary" }, [
+      _c("strong", [_vm._v("No Movies Watched")]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v("\n                You have not watched any movies yet. "),
+      _c("a", { attrs: { href: "http://netflix.com" } }, [
+        _vm._v("Get started!")
+      ])
     ])
   }
 ]

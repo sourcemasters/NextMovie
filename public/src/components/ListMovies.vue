@@ -1,22 +1,40 @@
 <template>
     <div>
-        <div class="col-md-12" v-show="movies.length>0">
+        <div class="col-md-12" v-show="movies.filter((film) => {return !film.watched;}).length>0">
             <h3>Movies to Watch</h3>
-            <div class="row mrb-10" v-for="movie in movies">
+            <div class="row mrb-10" v-for="movie in movies.filter((film) => {return !film.watched;})">
                 <div class="input-group m-b-5">
-                    <span class="input-group-addon addon-right"><input type="checkbox" v-model="movie.watched" :checked="movie.watched" :value="movie.watched" v-on:change="updateMovie(movie)" title="Mark as watched?"/></span>
+                    <span class="input-group-prepend"><input type="checkbox" v-model="movie.watched" :checked="movie.watched" :value="movie.watched" v-on:change="updateMovie(movie)" title="Mark as watched?"/></span>
                     <input type="text" class="form-control" :class="movie.watched?'movies__watched':''" v-model="movie.name" @keypress="movie.editing=true" @keyup.enter="updateMovie(movie)">
-                    <span class="input-group-addon addon-left" title="Delete movie?" v-on:click="deleteMovie(movie._id)">X</span>
+                    <span class="input-group-append" title="Delete movie?" v-on:click="deleteMovie(movie._id)">X</span>
                 </div>
                 <span class="help-block small" v-show="movie.editing">Hit enter to update</span>
             </div>
         </div>
-        <div class="row alert alert-info text-center" v-show="movies.length==0">
+        <div class="row alert alert-info text-center" v-show="movies.filter((film) => {return !film.watched;}).length==0">
             <p class="alert alert-info">
-              <strong>All Caught Up</strong>
+              <strong>No Movies Yet</strong>
             <br/>
-            You do not have any planned movies</p>
+            You do not have any planned movies. Try adding some!</p>
         </div>
+
+        <hr/>
+
+        <div class="col-md-12" v-show="movies.filter((film) => {return film.watched;}).length>0">
+            <h3>Watched Movies</h3>
+            <div class="row mrb-10" v-for="movie in movies.filter((film) => {return film.watched;})">
+                 <div class="input-group m-b-5">
+                     <input type="text" class="form-control" :class="movie.watched?'movies__watched':''" v-model="movie.name" @keypress="movie.editing=true" @keyup.enter="updateMovie(movie)">
+                     <span class="input-group-append" title="Delete movie?" v-on:click="deleteMovie(movie._id)">X</span>
+                </div>
+            </div>
+        </div>
+            <div class="row alert alert-secondary text-center" v-show="movies.filter((film) => {return film.watched;}).length==0">
+                <p class="alert alert-secondary">
+                    <strong>No Movies Watched</strong>
+                    <br/>
+                    You have not watched any movies yet. <a href="http://netflix.com">Get started!</a></p>
+            </div>
     </div>
 </template>
 
