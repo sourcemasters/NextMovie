@@ -9,6 +9,38 @@ var movielist = new mongoose.Schema({
 
   watched: {
     type: Boolean
+  },
+
+  poster: {
+    type: String
+  },
+
+  runtime: {
+    type: Number
+  },
+
+  director: {
+    type: String
+  },
+
+  synopsis: {
+    type: String
+  },
+
+  tmdbscore: {
+    type: Number
+  },
+
+  releasedate: {
+    type: Date
+  },
+
+  language: {
+    type: String
+  },
+
+  status: {
+    type: String
   }
 },
 

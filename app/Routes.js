@@ -6,6 +6,10 @@ const movieRoutes = express.Router();
 
 const Nextmovie = require('./Nextmovie');
 
+const request = require('request');
+
+const tkey = process.env.FILM_APIx; // api key for tmdb
+
 // get all movies in the db
 
 movieRoutes.route('/all').get(function (req, res, next) {
@@ -18,12 +22,30 @@ movieRoutes.route('/all').get(function (req, res, next) {
   });
 });
 
+
 // create a film item
-movieRoutes.route('/add').post(function (req, res) {
+movieRoutes.route('/add').post(function (req, res)  {
+  // request info from tmdb
+  var IdHolder = {
+    tmdbID : undefined, // id for film found during lookup
+    output : undefined
+  };
+
+
+  
+  console.log(IdHolder);
+  // create movie object
   Nextmovie.create(
     {
-      name: req.body.name,
-      watched: false
+      name: JSON.stringify(IdHolder.output),
+      watched: false,
+      runtime: IdHolder.output.runtime,
+      poster: IdHolder.output.poster_path,
+      synopsis: IdHolder.output.overview,
+      tmdbscore: IdHolder.output.vote_average,
+      releasedate: IdHolder.output.release_date,
+      language: IdHolder.output.spoken_languages,
+      status: IdHolder.output.status
     },
     function (error, movie) {
       if (error) {

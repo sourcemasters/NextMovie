@@ -24,6 +24,18 @@
     methods: {
       addMovie(event) {
         if (event) event.preventDefault();
+
+      request(`http://api.themoviedb.org/3/search/movie?api_key=${tkey}&query=${req.body.name}`, function(error, response, body) {
+        if (error || JSON.parse(body).total_results === 0) return res.status(404).send('Movie not found');
+        IdHolder.tmdbID = JSON.parse(body).results[0].id;
+        console.log(tkey);
+
+        request(`https://api.themoviedb.org/3/movie/${IdHolder.tmdbID}?api_key=${tkey}`, (error, response, body) => {
+          if (error) return res.status(400).send('Unable to process movie details');
+          IdHolder.output = JSON.parse(body);
+      });
+    });
+
         let url = 'http://localhost:4000/api/add';
         let param = {
           name: this.movies,
