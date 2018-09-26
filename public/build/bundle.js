@@ -12138,23 +12138,47 @@ Vue.compile = compileToFunctions;
   methods: {
     addMovie(event) {
       if (event) event.preventDefault();
-      let url = 'http://localhost:4000/api/add';
-      let param = {
-        name: this.movies,
-        watched: 0
-      };
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, param).then(response => {
-        console.log(response);
-        this.clearMovies();
-        this.refreshMovies();
-        this.typing = false;
+
+      let that = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(`http://api.themoviedb.org/3/search/movie?api_key=d3d327f7f687384a8074b41ead81a040&query=${that.movies}`).then(response => {
+        ;if (response.data.total_results === 0) console.log('Movie not found');
+        let tmdbID = response.data.results[0].id; // get id of first search result
+
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=d3d327f7f687384a8074b41ead81a040`).then(response => {
+          let output = response.data;
+          let url = 'http://localhost:4000/api/add';
+          console.log(output.title);
+          let param = {
+            name: output.title,
+            watched: 0,
+            runtime: output.runtime,
+            poster: output.poster_path,
+            synopsis: output.overview,
+            tmdbscore: output.vote_average,
+            releasedate: output.release_date,
+            language: output.spoken_languages,
+            status: output.status
+          };
+          __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, param).then(response => {
+            console.log(response);
+            that.clearMovies();
+            that.refreshMovies();
+            that.typing = false;
+          }).catch(error => {
+            console.log(error);
+          });
+        }).catch(error => {
+          return console.log('Unable to process movie details');
+        });
       }).catch(error => {
-        console.log(error);
+        return console.log('Movie not found');
       });
     },
+
     clearMovies() {
       this.movies = '';
     },
+
     refreshMovies() {
       __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$emit("refreshMovies");
     }
@@ -12458,6 +12482,7 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bus_js__ = __webpack_require__(16);
+//
 //
 //
 //
@@ -14191,6 +14216,8 @@ var render = function() {
                     }
                   })
                 ]),
+                _vm._v(" "),
+                _c("img", { attrs: { src: movie.poster } }),
                 _vm._v(" "),
                 _c("input", {
                   directives: [

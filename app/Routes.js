@@ -8,8 +8,6 @@ const Nextmovie = require('./Nextmovie');
 
 const request = require('request');
 
-const tkey = process.env.FILM_APIx; // api key for tmdb
-
 // get all movies in the db
 
 movieRoutes.route('/all').get(function (req, res, next) {
@@ -25,27 +23,18 @@ movieRoutes.route('/all').get(function (req, res, next) {
 
 // create a film item
 movieRoutes.route('/add').post(function (req, res)  {
-  // request info from tmdb
-  var IdHolder = {
-    tmdbID : undefined, // id for film found during lookup
-    output : undefined
-  };
-
-
-  
-  console.log(IdHolder);
   // create movie object
   Nextmovie.create(
     {
-      name: JSON.stringify(IdHolder.output),
+      name: res.req.body.name,
       watched: false,
-      runtime: IdHolder.output.runtime,
-      poster: IdHolder.output.poster_path,
-      synopsis: IdHolder.output.overview,
-      tmdbscore: IdHolder.output.vote_average,
-      releasedate: IdHolder.output.release_date,
-      language: IdHolder.output.spoken_languages,
-      status: IdHolder.output.status
+      runtime: res.req.body.runtime,
+      poster: "http://image.tmdb.org/t/p/w92" + res.req.body.poster,
+      synopsis: res.req.body.synopsis,
+      tmdbscore: res.req.body.tmdbscore,
+      releasedate: res.req.body.releasedate,
+      language: res.req.body.language,
+      status: res.req.body.status
     },
     function (error, movie) {
       if (error) {
@@ -77,6 +66,13 @@ movieRoutes.route('/update/:id').post(function (req, res, next) {
     } else {
       movie.name = req.body.name;
       movie.watched = req.body.watched;
+      movie.runtime = req.body.runtime;
+      movie.poster = req.body.poster;
+      movie.synopsis = req.body.synopsis;
+      movie.tmdbscore = req.body.tmdbscore;
+      movie.releasedate = req.body.releasedate;
+      movie.language = req.body.language;
+      movie.status = req.body.status;
 
       movie.save({
         function (error, movie) {

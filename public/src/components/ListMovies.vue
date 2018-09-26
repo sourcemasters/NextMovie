@@ -5,6 +5,7 @@
             <div class="row mrb-10" v-for="movie in movies.filter((film) => {return !film.watched;})">
                 <div class="input-group m-b-5">
                     <span class="input-group-prepend"><input type="checkbox" v-model="movie.watched" :checked="movie.watched" :value="movie.watched" v-on:change="updateMovie(movie)" title="Mark as watched?"/></span>
+                    <img :src="movie.poster">
                     <input type="text" class="form-control" :class="movie.watched?'movies__watched':''" v-model="movie.name" @keypress="movie.editing=true" @keyup.enter="updateMovie(movie)">
                     <span class="input-group-append" title="Delete movie?" v-on:click="deleteMovie(movie._id)">X</span>
                 </div>
