@@ -29,7 +29,7 @@ movieRoutes.route('/add').post(function (req, res)  {
       name: res.req.body.name,
       watched: false,
       runtime: res.req.body.runtime,
-      poster: "http://image.tmdb.org/t/p/w92" + res.req.body.poster,
+      poster: "http://image.tmdb.org/t/p/w154" + res.req.body.poster,
       synopsis: res.req.body.synopsis,
       tmdbscore: res.req.body.tmdbscore,
       releasedate: res.req.body.releasedate,

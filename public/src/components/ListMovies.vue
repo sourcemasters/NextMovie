@@ -2,21 +2,32 @@
     <div>
         <div class="col-md-12" v-show="movies.filter((film) => {return !film.watched;}).length>0">
             <h3>Movies to Watch</h3>
-            <div class="row mrb-10" v-for="movie in movies.filter((film) => {return !film.watched;})">
-                <div class="input-group m-b-5">
-                    <span class="input-group-prepend"><input type="checkbox" v-model="movie.watched" :checked="movie.watched" :value="movie.watched" v-on:change="updateMovie(movie)" title="Mark as watched?"/></span>
-                    <img :src="movie.poster">
-                    <input type="text" class="form-control" :class="movie.watched?'movies__watched':''" v-model="movie.name" @keypress="movie.editing=true" @keyup.enter="updateMovie(movie)">
-                    <span class="input-group-append" title="Delete movie?" v-on:click="deleteMovie(movie._id)">X</span>
+            <div class="row mrb-10" id="movie-row" v-for="movie in movies.filter((film) => {return !film.watched;})">
+                <!-- Improve the styling here later: the film stats should float left of the poster -->
+                <div class="poster-holder">
+                    <img class="poster-self" :src="movie.poster">
                 </div>
-                <span class="help-block small" v-show="movie.editing">Hit enter to update</span>
+                <div padding="2em">
+                    <h4>{{movie.name}}</h4>
+                    <p>
+                        <br>Runtime: {{movie.runtime}} minutes
+                        <br>TMDB Score: {{movie.tmdbscore}}
+                        <br>Release Date: {{movie.releasedate.substring(0, 10)}}
+                        <br>Languages: {{movie.language}}
+                    </p>
+                </div>
+                <p>{{movie.synopsis.substring(0, 250)}}...</p>
+                <div>
+                    <span class="input-group-prepend" margin="0.5rem"><input type="checkbox" v-model="movie.watched" :checked="movie.watched" :value="movie.watched" v-on:change="updateMovie(movie)" title="Mark as watched?"/>&nbsp;&nbsp;Watched?</span>
+                    <span margin="1em" class="input-group-append" id="movie-entryinput" title="Delete movie?" v-on:click="deleteMovie(movie._id)">Remove</span>
+                </div>
             </div>
         </div>
         <div class="row alert alert-info text-center" v-show="movies.filter((film) => {return !film.watched;}).length==0">
             <p class="alert alert-info">
               <strong>No Movies Yet</strong>
             <br/>
-            You do not have any planned movies. Try adding some!</p>
+            You haven't planned any movies. Try adding some!</p>
         </div>
 
         <hr/>
@@ -109,4 +120,24 @@
         background-color: none !important;
         border-right: 0px !important;
     }
+    .poster-holder {
+        float: left;
+    }
+    .poster-self {
+        border: solid black 1px;
+    }
+    #movie-row {
+        width: 110%;
+        padding: 0.5em;
+        border: 2px solid grey;
+        margin: 0.5em;
+    }
+    #movie-entryinput {
+        margin: 0.5em;
+        color: aqua;
+    }
+    #movie-entryinput:hover {
+        color: orange;
+    }
+
 </style>
